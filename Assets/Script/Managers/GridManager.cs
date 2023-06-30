@@ -4,20 +4,24 @@ using UnityEngine;
 
 public class GridManager : MonoBehaviour
 {
+    public static GridManager Instance;
+
     [SerializeField] private int numOfRows;
     [SerializeField] private int numOfColums;
     [SerializeField] private float tileWidth=1f;
     [SerializeField] private float tileHeight=1f;
     [SerializeField] private GameObject tilePrefab;
 
+    public Dictionary<Vector3, GameObject> tiles;
 
-    private void Start()
+    private void Awake()
     {
-        SpawnTiles();
+        Instance = this;
     }
-
-    private void SpawnTiles()
+ 
+    public void SpawnTiles()
     {
+        tiles = new Dictionary<Vector3, GameObject>();
         for(int row = 0; row < numOfRows; row++)
         {
             for(int col = 0; col < numOfColums; col++)
@@ -32,7 +36,12 @@ public class GridManager : MonoBehaviour
                 {
                     tileScript.TileColor(isOffset);
                 }
+
+                tiles[new Vector3(row, 0f, col)] = tile;
             }
+
         }
+
+        GameManager.Instance.ChangeState(GameState.SpawnPlayer);
     }
 }
