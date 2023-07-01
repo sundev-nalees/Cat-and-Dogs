@@ -33,8 +33,11 @@ public class GameManager : MonoBehaviour
                 Spawner.Instance.SpawnEnemy();
                 break;
             case GameState.PlayerTurn:
+                GameData.playerTurn=true;
+                GameData.playerNum = 1;
                 break;
             case GameState.EnemiesTurn:
+                EnemyMovement.Instance.MoveEnemy();
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(newState), newState, null);

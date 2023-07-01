@@ -9,7 +9,15 @@ public class Tile : MonoBehaviour
     [SerializeField] private Color highlightColor;
     [SerializeField] private Renderer renderer;
 
+    private PlayerMovements playerMovements;
+
     private int colorCount=0;
+
+    private void Awake()
+    {
+        playerMovements = PlayerMovements.Instance;
+    }
+
     public void TileColor(bool isOffset)
     {
         renderer.material.color = isOffset ? colorA : colorB;
@@ -34,5 +42,10 @@ public class Tile : MonoBehaviour
         {
             renderer.material.color = colorB;
         }
+    }
+
+    private void OnMouseDown()
+    {
+        playerMovements.MovePlayer(transform.position);
     }
 }
