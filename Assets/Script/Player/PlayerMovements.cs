@@ -19,25 +19,24 @@ public class PlayerMovements : MonoBehaviour
         {
             if (GameData.playerNum<4)
             {
-                currentPlayer = Spawner.Instance.players[GameData.playerNum];
-                Vector3 currentPlayerPosition = currentPlayer.transform.position;
-                if (currentPlayer != null)
+                if (Spawner.Instance.players.ContainsKey(GameData.playerNum))
                 {
-                   
-                    float distance = Vector3.Distance(currentPlayerPosition, tilePosition);
-                    if (IsAdjacentAndCardinal(tilePosition, currentPlayerPosition))
-                    {
-                        
-                        currentPlayer.transform.position = tilePosition;
-                        GameData.playerNum++;
-                    }
+                    currentPlayer = Spawner.Instance.players[GameData.playerNum];
+                    Vector3 currentPlayerPosition = currentPlayer.transform.position;
+                    
+                        if (IsAdjacentAndCardinal(tilePosition, currentPlayerPosition))
+                        {
 
+                            currentPlayer.transform.position = tilePosition;
+                            GameData.playerNum++;
+                        } 
                 }
+                    
 
                 if (GameData.playerNum == 4)
                 {
                     GameData.playerTurn = false;
-                    GameManager.Instance.ChangeState(GameState.EnemiesTurn);
+                    GameManager.Instance.ChangeState(GameState.PlayerAttack);
                 }
             }
            
@@ -46,9 +45,6 @@ public class PlayerMovements : MonoBehaviour
 
     public bool IsAdjacentAndCardinal(Vector3 tilePosition, Vector3 playerPosition)
     {
-        
-        Debug.Log(tilePosition.x + " " + playerPosition.x);
-        Debug.Log(tilePosition.z + " " + playerPosition.z);
         int rowDiff = Mathf.Abs((int)tilePosition.x - (int)playerPosition.x);
         int colDiff = Mathf.Abs((int)tilePosition.z - (int)playerPosition.z);
 
