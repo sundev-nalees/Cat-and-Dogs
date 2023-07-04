@@ -46,6 +46,14 @@ public class Tile : MonoBehaviour
 
     private void OnMouseDown()
     {
-        playerMovements.MovePlayer(transform.position);
+        if (GameData.playerAttack)
+        {
+            PlayerAttack.Instance.PlayerAttackClick(transform.position);
+        }
+        else
+        {
+            playerMovements.MovePlayer(transform.position);
+        }
+        
     }
 }

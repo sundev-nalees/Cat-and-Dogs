@@ -22,14 +22,14 @@ public class GridManager : MonoBehaviour
     public void SpawnTiles()
     {
         tiles = new Dictionary<Vector3, GameObject>();
-        for(int row = 0; row < numOfRows; row++)
+        for(float row = 0; row < numOfRows; row++)
         {
-            for(int col = 0; col < numOfColums; col++)
+            for(float col = 0; col < numOfColums; col++)
             {
                 float xPos = col * tileWidth;
-                float yPos = row * tileHeight;
-                GameObject tile = Instantiate(tilePrefab, new Vector3(xPos, 0f, yPos), Quaternion.identity);
-                tile.name = $"Tile {row} {col}";
+                float zPos = row* tileHeight;
+                GameObject tile = Instantiate(tilePrefab, new Vector3(xPos, 0f, zPos), Quaternion.identity);
+                tile.name = $"Tile {col} {row}";
                 bool isOffset = (row % 2 == 0 && col % 2 != 0) || (row % 2 != 0 && col % 2 == 0);
                 Tile tileScript = tile.GetComponent<Tile>();
                 if (tileScript != null)
@@ -37,11 +37,26 @@ public class GridManager : MonoBehaviour
                     tileScript.TileColor(isOffset);
                 }
 
-                tiles[new Vector3(row, 0f, col)] = tile;
+                tiles[new Vector3(row*10, 0f, col*10)] = tile;
             }
-
+            foreach(Vector3 key in tiles.Keys)
+            {
+                Debug.Log("tilekey: " + key);
+            }
         }
-
         GameManager.Instance.ChangeState(GameState.SpawnPlayer);
+    }
+
+    public GameObject GetRandomTile()
+    {
+        int randomRow = Random.Range(0, numOfRows);
+        int randomCol = Random.Range(0, numOfColums);
+
+        float xPos = randomRow * tileHeight;
+        float zPos =  randomCol* tileWidth;
+
+        Vector3 tilePosition = new Vector3(xPos, 0f, zPos);
+        GameObject selecedTile = tiles[tilePosition];
+        return selecedTile;
     }
 }

@@ -36,9 +36,15 @@ public class GameManager : MonoBehaviour
                 GameData.playerTurn=true;
                 GameData.playerNum = 1;
                 break;
+            case GameState.PlayerAttack:
+                GameData.playerAttack = true;
+                break;
             case GameState.EnemiesTurn:
                 EnemyMovement.Instance.MoveEnemy();
                 break;
+            case GameState.EnemiesAttack:
+                EnemyAttack.Instance.Attack();
+                    break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
 
@@ -52,5 +58,7 @@ public enum GameState
     SpawnPlayer=1,
     SpawnEnemies=2,
     PlayerTurn=3,
-    EnemiesTurn=4
+    PlayerAttack=4,
+    EnemiesTurn=5,
+    EnemiesAttack=6
 }
