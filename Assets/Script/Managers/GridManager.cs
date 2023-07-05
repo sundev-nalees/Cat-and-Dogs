@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,6 +21,7 @@ public class GridManager : MonoBehaviour
     public void SpawnTiles()
     {
         tiles = new Dictionary<Vector3, GameObject>();
+
         for(float row = 0; row < numOfRows; row++)
         {
             for(float col = 0; col < numOfColums; col++)
@@ -32,11 +32,11 @@ public class GridManager : MonoBehaviour
                 tile.name = $"Tile {col} {row}";
                 bool isOffset = (row % 2 == 0 && col % 2 != 0) || (row % 2 != 0 && col % 2 == 0);
                 Tile tileScript = tile.GetComponent<Tile>();
+                
                 if (tileScript != null)
                 {
                     tileScript.TileColor(isOffset);
                 }
-
                 tiles[new Vector3(row*10, 0f, col*10)] = tile;
             }
             foreach(Vector3 key in tiles.Keys)
