@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -35,9 +33,14 @@ public class GameManager : MonoBehaviour
             case GameState.PlayerTurn:
                 GameData.playerTurn=true;
                 GameData.playerNum = 1;
+                GameData.playerStatus = true;
+                GameUiManager.Instance.PlayerStatus();
+                PlayerMovements.Instance.PlayerWalkAnimation();
                 break;
             case GameState.PlayerAttack:
                 GameData.playerAttack = true;
+                GameData.playerStatus = false;
+                GameUiManager.Instance.PlayerStatus();
                 break;
             case GameState.EnemiesTurn:
                 EnemyMovement.Instance.MoveEnemy();

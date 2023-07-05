@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerAttack :MonoBehaviour
@@ -15,7 +13,6 @@ public class PlayerAttack :MonoBehaviour
 
     public void PlayerAttackClick(Vector3 tileTransform)
     {
-        Debug.Log(Spawner.Instance.enemies.Count);
         if (GameData.PlayerAttackCount <Spawner.Instance.enemies.Count)
         {
             for(int i = 0; i < 3; i++)
@@ -28,11 +25,18 @@ public class PlayerAttack :MonoBehaviour
                     {
                         Destroy(currentEnemy);
                         Spawner.Instance.enemies.Remove(i);
+                        GameUiManager.Instance.EnemyCount();
+                        if (Spawner.Instance.enemies.Count == 0)
+                        {
+                            GameUiManager.Instance.GameOver();
+                            GameData.playerWon = true;
+                        }
                     }
                 }
                 
             }
             GameData.PlayerAttackCount++;
+
             if (GameData.PlayerAttackCount >= Spawner.Instance.enemies.Count)
             {
                 GameData.PlayerAttackCount = 0;
@@ -40,7 +44,5 @@ public class PlayerAttack :MonoBehaviour
                 GameManager.Instance.ChangeState(GameState.EnemiesTurn);
             }
         }
-      
-        
     }
 }
